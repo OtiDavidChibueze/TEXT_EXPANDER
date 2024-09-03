@@ -1,35 +1,66 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react";
+import "./App.css";
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div>
+      <TextExpander>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa numquam
+        molestiae excepturi, dolorum repellat voluptates nulla obcaecati ratione
+        quos perferendis exercitationem similique reprehenderit?
+      </TextExpander>
+
+      <TextExpander
+        collapseNumWords={20}
+        expandButtonText="show more"
+        collapseButtonText="show less"
+        buttonColor="#ff6622"
+      >
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa numquam
+        molestiae excepturi, dolorum repellat voluptates nulla obcaecati ratione
+        quos perferendis exercitationem similique reprehenderit?
+      </TextExpander>
+      <TextExpander expanded={false} className="box">
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa numquam
+        molestiae excepturi, dolorum repellat voluptates nulla obcaecati ratione
+        quos perferendis exercitationem similique reprehenderit?
+      </TextExpander>
+    </div>
+  );
 }
 
-export default App
+function TextExpander({
+  collapseNumWords = 10,
+  expandButtonText = "show more",
+  collapseButtonText = "show less",
+  buttonColor = "blue",
+  expanded = false,
+  className,
+  children,
+}) {
+  const [isExpanded, setIsExpanded] = useState(expanded);
+
+  const displayText = isExpanded
+    ? children
+    : children.split(" ").slice(0, collapseNumWords).join(" ") + "...";
+
+  const btnStyle = {
+    background: "none",
+    border: "none",
+    color: buttonColor,
+    cursor: "pointer",
+    font: "inherit",
+    marginLeft: "6px",
+  };
+
+  return (
+    <div className={className}>
+      <span>{displayText}</span>
+      <button style={btnStyle} onClick={() => setIsExpanded((isE) => !isE)}>
+        {isExpanded ? collapseButtonText : expandButtonText}
+      </button>
+    </div>
+  );
+}
+
+export default App;
